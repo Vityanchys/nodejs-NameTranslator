@@ -17,8 +17,9 @@ exports.translate = async (search) => {
   }
 
   return response.text().then(text => {
-    console.log(text);
-    return text ? JSON.parse(text) : {status: response.status}
+    console.log('resp text - ' , text);
+    return text ? JSON.parse(text) : {status: response.status,
+                                        body: response.result}
   });
 }
 
@@ -38,6 +39,6 @@ exports.getName = async (search) => {
     }
 
     return response.text().then(text => {
-      return text ? JSON.parse(text) : {status: response.status}
+      return text ? JSON.parse(text) : {body: response.body}
     });
 }

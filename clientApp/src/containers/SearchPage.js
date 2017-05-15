@@ -10,6 +10,7 @@ class SearchPage extends Component {
       errors: {},
       search: {
         name : '',
+        result: '',
         }
     };
 
@@ -39,10 +40,12 @@ class SearchPage extends Component {
     if (response.success) {
 
       this.setState({
-        errors: {}
+        errors: {},
+        result: response.result
       });
 
       alert("OK");
+      console.log('priv ',response.result);
 
     } else {
 

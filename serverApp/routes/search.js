@@ -1,8 +1,11 @@
 const express = require('express');
 const validator = require('validator');
+const wdk = require('wikidata-sdk');
+const request = require('request');
 
-var router = express.Router();
+let router = express.Router();
 
+let wiki = require('../module/wiki');
 
 /**
  * Validate the sign up form
@@ -15,7 +18,6 @@ function validateSearch(payload) {
   const errors = {};
   let isFormValid = true;
   let message = '';
-  console.log(payload.name);
   if (!payload || typeof payload.name !== 'string' || payload.name === '') {
     isFormValid = false;
     errors.name = 'Укажите имя корректно!';
@@ -32,6 +34,40 @@ function validateSearch(payload) {
   };
 }
 
+function parseSearchUrl(url, callback) {
+  request(url, function(error, response, body) {
+    //  var info = response.jsonText;
+      return callback(body);
+      //console.log(info);
+      //console.log(response.headers['x-client-ip']);
+})
+}
+
+function wikiData(search, callback) {
+try{
+  let titles = search.name;
+  const sites = [];
+  const languages = ['en', 'ru'];
+  const props = ['labels'];
+  const format = 'json';
+
+    let url = wdk.getWikidataIdsFromWikipediaTitles(titles, sites, languages, props, format);
+      console.log(url);
+
+      let body = parseSearchUrl(url, function(result){
+        console.log('b:', result);
+
+      return callback({
+          response: true,
+          result: result
+      });
+    });
+
+  } catch(e){
+    return console.log('Err' + e);
+  }
+}
+
 router.post('/translate', (req, res, next) => {
   console.log(req.body);
   const validationResult = validateSearch(req.body);
@@ -41,10 +77,17 @@ router.post('/translate', (req, res, next) => {
       message: validationResult.message,
       errors: validationResult.errors
     });
-}
-      console.log('Good validate! '+ req.body);
+    }
+
+      console.log('Good validate! Respon is '+ req.body.name);
+      let wikiDataResult = wikiData(req.body, function(result){
+        console.log(result);
+
+
       return res.status(200).json({
       success: true,
+      body: result,
+        });
 });
 })
 
