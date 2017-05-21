@@ -55,17 +55,26 @@ try{
       console.log(url);
 
       let body = parseSearchUrl(url, function(result){
-        console.log('b:', result);
+        let data = JSON.parse(result);
+        let my_props='';
+        for(let props in data.entities){
+        if(/^Q[0-9]+/.test(props)) my_props=props;
+        }
 
-      return callback({
-          response: true,
-          result: result
-      });
+          let dataParse = data.entities[my_props].labels;
+          return callback({
+            response: true,
+            result: dataParse
+          });
     });
 
   } catch(e){
     return console.log('Err' + e);
   }
+}
+
+function parseJson(key,value) {
+  return value;
 }
 
 router.post('/translate', (req, res, next) => {

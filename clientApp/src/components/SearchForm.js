@@ -28,6 +28,10 @@ class SearchForm extends Component {
       <div className="btn-right">
         <RaisedButton type="submit" label="Перевести"  onClick={onSubmit} primary />
       </div>
+      <TextField
+      id="text-field-default"
+      defaultValue = ''
+      /><br />
     </Card>
   )};
 }

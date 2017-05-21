@@ -44,11 +44,11 @@ class SearchPage extends Component {
         result: response.result
       });
 
-      alert("OK");
-      console.log('priv ',response.result);
+      await alert("OK, translate name is: " + response.body.result.ru.value);
 
     } else {
 
+      alert('Not Ok');
       const errors = response.errors ? response.errors : {};
       errors.summary = response.message;
 
