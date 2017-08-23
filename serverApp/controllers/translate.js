@@ -1,8 +1,7 @@
 import { translate } from '../services';
 
 export default (req, res, next) => {
-  console.log(req);
-  translate(req)
+  translate(req.body)
     .then((result) => {
       res.json(result)
     })

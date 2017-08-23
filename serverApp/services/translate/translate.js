@@ -6,16 +6,14 @@ import request from 'request';
 
 
 export default (search) => {
-  console.log('KEJDLFSKJ');
   return new Promise(async (resolve, reject) => {
-
     let titles = search.name;
+
     const sites = [];
-    const languages = ['en', 'ru'];
+    const languages = ['en', 'ru', 'de', 'pl', 'ua', 'by'];
     const props = ['labels'];
     const format = 'json';
     try {
-      console.log('ZJAS ZNKSFJSDFISHFJHSDJHVBJKSDHBV DSXZFJCSDZXFJCH');
     let url = wdk.getWikidataIdsFromWikipediaTitles(titles, sites, languages, props, format);
     console.log(url);
 
